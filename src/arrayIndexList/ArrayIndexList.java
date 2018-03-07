@@ -19,6 +19,11 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		if(index<0 || index>size){
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
+		if(size == element.length) {
+			changeCapacity(2*size);
+		}
+		moveDataOnePositionTR(index, size-1);
+		element[index] = e;
 		// ADD CODE AS REQUESTED BY EXERCISES
 		size++;
 	}
@@ -52,9 +57,11 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		if(!(index>=0 && index<size)){
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
+		E etr = element[index];
+		moveDataOnePositionTL(index+1,size);
 		// ADD AND MODIFY CODE AS REQUESTED BY EXERCISES
 		size--;
-		return null;
+		return etr;
 	}
 
 
