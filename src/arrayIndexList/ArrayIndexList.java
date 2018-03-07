@@ -3,9 +3,9 @@ package arrayIndexList;
 import indexList.IndexList;
 
 public class ArrayIndexList<E> implements IndexList<E> {
-	private static final int INITCAP = 5; 
-	private static final int CAPTOAR = 5; 
-	private static final int MAXEMPTYPOS = 10; 
+	private static final int INITCAP = 1; 
+	private static final int CAPTOAR = 1; 
+	private static final int MAXEMPTYPOS = 2; 
 	private E[] element; 
 	private int size; 
 
@@ -20,7 +20,7 @@ public class ArrayIndexList<E> implements IndexList<E> {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
 		if(size == element.length) {
-			changeCapacity(2*size);
+			changeCapacity(size*CAPTOAR);
 		}
 		moveDataOnePositionTR(index, size-1);
 		element[index] = e;
@@ -31,7 +31,7 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 	public void add(E e) {
 		if(size == element.length){
-			changeCapacity(2*size);
+			changeCapacity(size*CAPTOAR);
 		}
 		element[size] = e;
 		size++;
@@ -61,6 +61,9 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		moveDataOnePositionTL(index+1,size);
 		// ADD AND MODIFY CODE AS REQUESTED BY EXERCISES
 		size--;
+		/*if(size - element.length > MAXEMPTYPOS) {
+			changeCapacity(size*)
+		}*/
 		return etr;
 	}
 
@@ -117,15 +120,34 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 	// The following two methods are to be implemented as part of an exercise
 	public Object[] toArray() {
+		Object[] newArray = new Object[size];
+		for(int i = 0; i<size;i++) {
+			newArray[i] = element[i];
+		}
 		// TODO es in Exercise 3
-		return null;
+		return newArray;
 	}
 
 
 	@Override
 	public <T1> T1[] toArray(T1[] array) {
+		if(size<array.length) {
+			for(int i = 0;i<size;i++) {
+				array[i] = (T1) element[i];
+			}
+			for(int i = size; i<array.length ;i++) {
+				array[i] = null;
+			}
+		}
 		// TODO as in Exercise 3
-		return null;
+		return array;
+	}
+
+
+	@Override
+	public int capacity() {
+		// TODO Auto-generated method stub
+		return element.length;
 	}
 
 }
